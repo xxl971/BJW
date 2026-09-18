@@ -1,0 +1,635 @@
+{
+  "run_at_utc": "2026-09-17T11:04:51+00:00",
+  "total_jobs": 110,
+  "sources_ok": 8,
+  "sources_warning": 0,
+  "sources_failed": 0,
+  "sources": [
+    {
+      "company": "Amgen",
+      "source_url": "https://careers.amgen.com/en/search-jobs/Statistics/87/1",
+      "status": "ok",
+      "pages_fetched": 9,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://careers.amgen.com/en/search-jobs/Statistics/87/1",
+          "http_status": 200,
+          "bytes": 423032,
+          "elapsed_seconds": 5.473,
+          "matched_jobs_on_page": 9,
+          "unique_jobs_added": 9
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://careers.amgen.com/search-jobs/Statistics/87/1?p=2",
+          "http_status": 200,
+          "bytes": 422909,
+          "elapsed_seconds": 12.197,
+          "matched_jobs_on_page": 11,
+          "unique_jobs_added": 11
+        },
+        {
+          "channel": "primary",
+          "page": 3,
+          "url": "https://careers.amgen.com/search-jobs/Statistics/87/1?p=3",
+          "http_status": 200,
+          "bytes": 422908,
+          "elapsed_seconds": 9.944,
+          "matched_jobs_on_page": 11,
+          "unique_jobs_added": 11
+        },
+        {
+          "channel": "primary",
+          "page": 4,
+          "url": "https://careers.amgen.com/search-jobs/Statistics/87/1?p=4",
+          "http_status": 200,
+          "bytes": 422763,
+          "elapsed_seconds": 9.81,
+          "matched_jobs_on_page": 11,
+          "unique_jobs_added": 11
+        },
+        {
+          "channel": "primary",
+          "page": 5,
+          "url": "https://careers.amgen.com/search-jobs/Statistics/87/1?p=5",
+          "http_status": 200,
+          "bytes": 422787,
+          "elapsed_seconds": 8.502,
+          "matched_jobs_on_page": 3,
+          "unique_jobs_added": 3
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://careers.amgen.com/en/search-jobs/China/87/1",
+          "http_status": 200,
+          "bytes": 161544,
+          "elapsed_seconds": 4.135,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "targeted",
+          "page": 2,
+          "url": "https://careers.amgen.com/search-jobs/China/87/1?p=2",
+          "http_status": 200,
+          "bytes": 161399,
+          "elapsed_seconds": 8.373,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 3,
+          "url": "https://careers.amgen.com/search-jobs/China/87/1?p=3",
+          "http_status": 200,
+          "bytes": 161394,
+          "elapsed_seconds": 9.565,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://careers.amgen.com/en/search-jobs/Chengdu/87/1",
+          "http_status": 200,
+          "bytes": 55393,
+          "elapsed_seconds": 4.428,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 46,
+      "china_jobs_found": 1,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "Astellas",
+      "source_url": "https://careers.astellas.com/search-jobs/biostatistics",
+      "status": "ok",
+      "pages_fetched": 4,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://careers.astellas.com/search-jobs/biostatistics",
+          "http_status": 200,
+          "bytes": 108200,
+          "elapsed_seconds": 5.262,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://careers.astellas.com/search-jobs/biostatistics?q=&sortColumn=referencedate&sortDirection=desc&startrow=50",
+          "http_status": 200,
+          "bytes": 88365,
+          "elapsed_seconds": 9.046,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://careers.astellas.com/search/?q=china",
+          "http_status": 200,
+          "bytes": 68788,
+          "elapsed_seconds": 4.709,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://careers.astellas.com/search/?q=chengdu",
+          "http_status": 200,
+          "bytes": 61573,
+          "elapsed_seconds": 4.847,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 1,
+      "china_jobs_found": 0,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "AstraZeneca",
+      "source_url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1",
+      "status": "ok",
+      "pages_fetched": 7,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1",
+          "http_status": 200,
+          "bytes": 115478,
+          "elapsed_seconds": 5.068,
+          "matched_jobs_on_page": 14,
+          "unique_jobs_added": 14
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1?p=2",
+          "http_status": 200,
+          "bytes": 114583,
+          "elapsed_seconds": 5.227,
+          "matched_jobs_on_page": 6,
+          "unique_jobs_added": 6
+        },
+        {
+          "channel": "primary",
+          "page": 3,
+          "url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1?p=3",
+          "http_status": 200,
+          "bytes": 114126,
+          "elapsed_seconds": 5.375,
+          "matched_jobs_on_page": 5,
+          "unique_jobs_added": 5
+        },
+        {
+          "channel": "primary",
+          "page": 4,
+          "url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1?p=4",
+          "http_status": 200,
+          "bytes": 82769,
+          "elapsed_seconds": 5.65,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://careers.astrazeneca.com/search-jobs/china/7684/1",
+          "http_status": 200,
+          "bytes": 108776,
+          "elapsed_seconds": 5.324,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 2,
+          "url": "https://careers.astrazeneca.com/search-jobs/china/7684/1?p=2",
+          "http_status": 200,
+          "bytes": 108368,
+          "elapsed_seconds": 5.455,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://careers.astrazeneca.com/search-jobs/chengdu/7684/1",
+          "http_status": 200,
+          "bytes": 35752,
+          "elapsed_seconds": 6.029,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 26,
+      "china_jobs_found": 0,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "Boehringer Ingelheim",
+      "source_url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics",
+      "status": "ok",
+      "pages_fetched": 7,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics",
+          "http_status": 200,
+          "bytes": 129675,
+          "elapsed_seconds": 6.311,
+          "matched_jobs_on_page": 5,
+          "unique_jobs_added": 5
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics&startrow=25",
+          "http_status": 200,
+          "bytes": 63125,
+          "elapsed_seconds": 5.36,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 3,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics&startrow=50",
+          "http_status": 200,
+          "bytes": 63127,
+          "elapsed_seconds": 6.209,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 4,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics&startrow=75",
+          "http_status": 200,
+          "bytes": 63126,
+          "elapsed_seconds": 6.085,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 5,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics&startrow=100",
+          "http_status": 200,
+          "bytes": 63156,
+          "elapsed_seconds": 6.63,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=china",
+          "http_status": 200,
+          "bytes": 162211,
+          "elapsed_seconds": 5.78,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=chengdu",
+          "http_status": 200,
+          "bytes": 59684,
+          "elapsed_seconds": 6.154,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 5,
+      "china_jobs_found": 3,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "ICON",
+      "source_url": "https://careers.iconplc.com/biostatistics-jobs",
+      "status": "ok",
+      "pages_fetched": 1,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://careers.iconplc.com/biostatistics-jobs",
+          "http_status": 200,
+          "bytes": 196257,
+          "elapsed_seconds": 4.798,
+          "matched_jobs_on_page": 8,
+          "unique_jobs_added": 8
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 8,
+      "china_jobs_found": 0,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "Parexel",
+      "source_url": "https://jobs.parexel.com/en/search-jobs/biostatistician",
+      "status": "ok",
+      "pages_fetched": 7,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://jobs.parexel.com/en/search-jobs/biostatistician",
+          "http_status": 200,
+          "bytes": 1847485,
+          "elapsed_seconds": 5.872,
+          "matched_jobs_on_page": 6,
+          "unique_jobs_added": 6
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://jobs.parexel.com/search-jobs/biostatistician?p=2",
+          "http_status": 200,
+          "bytes": 2110509,
+          "elapsed_seconds": 12.127,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 3,
+          "url": "https://jobs.parexel.com/search-jobs/biostatistician?p=3",
+          "http_status": 200,
+          "bytes": 2110077,
+          "elapsed_seconds": 9.826,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 4,
+          "url": "https://jobs.parexel.com/search-jobs/biostatistician?p=4",
+          "http_status": 200,
+          "bytes": 2109997,
+          "elapsed_seconds": 14.064,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "primary",
+          "page": 5,
+          "url": "https://jobs.parexel.com/search-jobs/biostatistician?p=5",
+          "http_status": 200,
+          "bytes": 2109693,
+          "elapsed_seconds": 11.221,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.parexel.com/en/search-jobs/china",
+          "http_status": 200,
+          "bytes": 1834058,
+          "elapsed_seconds": 5.535,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.parexel.com/en/search-jobs/chengdu",
+          "http_status": 200,
+          "bytes": 1807585,
+          "elapsed_seconds": 7.611,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 8,
+      "china_jobs_found": 0,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "Sanofi",
+      "source_url": "https://jobs.sanofi.com/en/search-jobs/biostatistics",
+      "status": "ok",
+      "pages_fetched": 9,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://jobs.sanofi.com/en/search-jobs/biostatistics",
+          "http_status": 200,
+          "bytes": 101534,
+          "elapsed_seconds": 6.897,
+          "matched_jobs_on_page": 7,
+          "unique_jobs_added": 7
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://jobs.sanofi.com/search-jobs/biostatistics?p=2",
+          "http_status": 200,
+          "bytes": 186056,
+          "elapsed_seconds": 10.047,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 3,
+          "url": "https://jobs.sanofi.com/search-jobs/biostatistics?p=3",
+          "http_status": 200,
+          "bytes": 185905,
+          "elapsed_seconds": 9.88,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 4,
+          "url": "https://jobs.sanofi.com/search-jobs/biostatistics?p=4",
+          "http_status": 200,
+          "bytes": 185806,
+          "elapsed_seconds": 9.984,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "primary",
+          "page": 5,
+          "url": "https://jobs.sanofi.com/search-jobs/biostatistics?p=5",
+          "http_status": 200,
+          "bytes": 186114,
+          "elapsed_seconds": 14.325,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.sanofi.com/en/search-jobs/china",
+          "http_status": 200,
+          "bytes": 114121,
+          "elapsed_seconds": 4.163,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 2,
+          "url": "https://jobs.sanofi.com/search-jobs/china?p=2",
+          "http_status": 200,
+          "bytes": 185984,
+          "elapsed_seconds": 11.431,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 3,
+          "url": "https://jobs.sanofi.com/search-jobs/china?p=3",
+          "http_status": 200,
+          "bytes": 185833,
+          "elapsed_seconds": 10.73,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.sanofi.com/en/search-jobs/chengdu",
+          "http_status": 200,
+          "bytes": 83826,
+          "elapsed_seconds": 5.3,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 7,
+      "china_jobs_found": 0,
+      "chengdu_jobs_found": 0
+    },
+    {
+      "company": "Takeda",
+      "source_url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1",
+      "status": "ok",
+      "pages_fetched": 9,
+      "page_details": [
+        {
+          "channel": "primary",
+          "page": 1,
+          "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1",
+          "http_status": 200,
+          "bytes": 668350,
+          "elapsed_seconds": 4.339,
+          "matched_jobs_on_page": 2,
+          "unique_jobs_added": 2
+        },
+        {
+          "channel": "primary",
+          "page": 2,
+          "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1?p=2",
+          "http_status": 200,
+          "bytes": 668472,
+          "elapsed_seconds": 4.175,
+          "matched_jobs_on_page": 3,
+          "unique_jobs_added": 3
+        },
+        {
+          "channel": "primary",
+          "page": 3,
+          "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1?p=3",
+          "http_status": 200,
+          "bytes": 668471,
+          "elapsed_seconds": 5.229,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "primary",
+          "page": 4,
+          "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1?p=4",
+          "http_status": 200,
+          "bytes": 668423,
+          "elapsed_seconds": 6.119,
+          "matched_jobs_on_page": 2,
+          "unique_jobs_added": 2
+        },
+        {
+          "channel": "primary",
+          "page": 5,
+          "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1?p=5",
+          "http_status": 200,
+          "bytes": 666349,
+          "elapsed_seconds": 5.079,
+          "matched_jobs_on_page": 1,
+          "unique_jobs_added": 1
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.takeda.com/search-jobs/china/1113/1",
+          "http_status": 200,
+          "bytes": 796384,
+          "elapsed_seconds": 4.592,
+          "matched_jobs_on_page": 2,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 2,
+          "url": "https://jobs.takeda.com/search-jobs/china/1113/1?p=2",
+          "http_status": 200,
+          "bytes": 796392,
+          "elapsed_seconds": 5.649,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 3,
+          "url": "https://jobs.takeda.com/search-jobs/china/1113/1?p=3",
+          "http_status": 200,
+          "bytes": 796376,
+          "elapsed_seconds": 5.587,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        },
+        {
+          "channel": "targeted",
+          "page": 1,
+          "url": "https://jobs.takeda.com/search-jobs/chengdu/1113/1",
+          "http_status": 200,
+          "bytes": 615922,
+          "elapsed_seconds": 7.052,
+          "matched_jobs_on_page": 0,
+          "unique_jobs_added": 0
+        }
+      ],
+      "channel_errors": [],
+      "jobs_found": 9,
+      "china_jobs_found": 2,
+      "chengdu_jobs_found": 0
+    }
+  ]
+}

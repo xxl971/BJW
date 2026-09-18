@@ -1,0 +1,15 @@
+{
+  "run_at_utc": "2026-09-17T10:59:26+00:00",
+  "total_jobs": 2,
+  "sources_ok": 1,
+  "sources_warning": 0,
+  "sources_failed": 0,
+  "sources": [
+    {
+      "company": "Demo Pharma",
+      "source_url": "offline fixture",
+      "status": "ok",
+      "jobs_found": 2
+    }
+  ]
+}

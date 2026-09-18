@@ -1,0 +1,49 @@
+{
+  "run_at_utc": "2026-09-17T10:39:11+00:00",
+  "total_jobs": 35,
+  "sources_ok": 4,
+  "sources_warning": 0,
+  "sources_failed": 0,
+  "sources": [
+    {
+      "company": "Amgen",
+      "source_url": "https://careers.amgen.com/en/search-jobs/Statistics/87/1",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 423032,
+      "final_url": "https://careers.amgen.com/en/search-jobs/Statistics/87/1",
+      "elapsed_seconds": 10.678,
+      "jobs_found": 9
+    },
+    {
+      "company": "AstraZeneca",
+      "source_url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 115358,
+      "final_url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1",
+      "elapsed_seconds": 7.459,
+      "jobs_found": 14
+    },
+    {
+      "company": "ICON",
+      "source_url": "https://careers.iconplc.com/biostatistics-jobs",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 196298,
+      "final_url": "https://careers.iconplc.com/biostatistics-jobs",
+      "elapsed_seconds": 5.473,
+      "jobs_found": 6
+    },
+    {
+      "company": "Parexel",
+      "source_url": "https://jobs.parexel.com/en/search-jobs/biostatistician",
+      "status": "ok",
+      "http_status": 200,
+      "bytes": 1847485,
+      "final_url": "https://jobs.parexel.com/en/search-jobs/biostatistician",
+      "elapsed_seconds": 11.017,
+      "jobs_found": 6
+    }
+  ]
+}

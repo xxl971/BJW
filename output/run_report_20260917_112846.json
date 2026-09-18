@@ -1,0 +1,19 @@
+{
+  "run_at_utc": "2026-09-17T11:28:46+00:00",
+  "total_jobs": 2,
+  "sources_ok": 1,
+  "sources_warning": 0,
+  "sources_failed": 0,
+  "sources_portal": 0,
+  "current_internships": 5,
+  "historical_internships": 8,
+  "sources": [
+    {
+      "company": "Demo Pharma",
+      "category": "演示",
+      "source_url": "offline fixture",
+      "status": "ok",
+      "jobs_found": 2
+    }
+  ]
+}
