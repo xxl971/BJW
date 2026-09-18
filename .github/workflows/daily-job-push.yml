@@ -2,18 +2,14 @@ name: Daily biostatistics job push
 
 on:
   schedule:
-    - cron: "35 19 * * *"
+    - cron: "35 17 * * *"
       timezone: "Asia/Shanghai"
   workflow_dispatch:
-    inputs:
-      send_preview:
-        description: "发送预览（不消费正式推送队列）"
-        required: true
-        default: true
-        type: boolean
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: daily-biostatistics-job-push
@@ -23,6 +19,10 @@ jobs:
   collect-and-push:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     env:
       TZ: Asia/Shanghai
       PYTHONUNBUFFERED: "1"
@@ -53,31 +53,46 @@ jobs:
             exit 1
           fi
 
-      - name: Collect jobs and send WxPusher message
-        shell: bash
-        run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" && "${{ inputs.send_preview }}" == "true" ]]; then
-            python main.py --test-push
-          else
-            python main.py --push
-          fi
+      - name: Collect jobs and build full report
+        run: python main.py
 
-      - name: Prepare latest report files
-        if: always()
+      - name: Prepare report files
         shell: bash
         run: |
           mkdir -p action-artifact
-          [[ -f output/latest_report.html ]] && cp output/latest_report.html action-artifact/
+          mkdir -p pages-site
+
+          cp output/latest_report.html action-artifact/
+          cp output/latest_report.html pages-site/index.html
+          touch pages-site/.nojekyll
+
           latest_json=$(find output -maxdepth 1 -name 'run_report_*.json' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)
           latest_csv=$(find output -maxdepth 1 -name 'jobs_china_*.csv' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)
+
           [[ -n "${latest_json}" ]] && cp "${latest_json}" action-artifact/
           [[ -n "${latest_csv}" ]] && cp "${latest_csv}" action-artifact/
 
-      - name: Upload latest report
-        if: always()
+      - name: Upload latest report backup
         uses: actions/upload-artifact@v4
         with:
           name: job-report-${{ github.run_number }}
           path: action-artifact/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: pages-site
+
+      - name: Deploy full report to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Send daily WxPusher update
+        env:
+          REPORT_URL: ${{ steps.deployment.outputs.page_url }}
+        run: python main.py --send-daily
