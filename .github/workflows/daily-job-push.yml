@@ -2,7 +2,7 @@ name: Daily biostatistics job push
 
 on:
   schedule:
-    - cron: "7 12 * * *"
+    - cron: "35 19 * * *"
       timezone: "Asia/Shanghai"
   workflow_dispatch:
     inputs:
