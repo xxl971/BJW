@@ -1,0 +1,83 @@
+name: Daily biostatistics job push
+
+on:
+  schedule:
+    - cron: "7 12 * * *"
+      timezone: "Asia/Shanghai"
+  workflow_dispatch:
+    inputs:
+      send_preview:
+        description: "发送预览（不消费正式推送队列）"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-biostatistics-job-push
+  cancel-in-progress: false
+
+jobs:
+  collect-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: "1"
+      WXPUSHER_SPT: ${{ secrets.WXPUSHER_SPT }}
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore job history and push queue
+        uses: actions/cache@v4
+        with:
+          path: data/job_history.sqlite3
+          key: job-history-${{ github.run_id }}
+          restore-keys: |
+            job-history-
+
+      - name: Validate push secret
+        shell: bash
+        run: |
+          if [[ -z "${WXPUSHER_SPT}" ]]; then
+            echo "::error::Repository secret WXPUSHER_SPT is missing."
+            exit 1
+          fi
+
+      - name: Collect jobs and send WxPusher message
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" && "${{ inputs.send_preview }}" == "true" ]]; then
+            python main.py --test-push
+          else
+            python main.py --push
+          fi
+
+      - name: Prepare latest report files
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p action-artifact
+          [[ -f output/latest_report.html ]] && cp output/latest_report.html action-artifact/
+          latest_json=$(find output -maxdepth 1 -name 'run_report_*.json' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)
+          latest_csv=$(find output -maxdepth 1 -name 'jobs_china_*.csv' -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)
+          [[ -n "${latest_json}" ]] && cp "${latest_json}" action-artifact/
+          [[ -n "${latest_csv}" ]] && cp "${latest_csv}" action-artifact/
+
+      - name: Upload latest report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: job-report-${{ github.run_number }}
+          path: action-artifact/
+          if-no-files-found: warn
+          retention-days: 30
