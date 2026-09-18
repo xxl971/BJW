@@ -1,6 +1,6 @@
 param(
     [string]$TaskName = "BiostatisticsJobWatcher",
-    [string]$DailyTime = "12:00"
+    [string]$DailyTime = "17:07"
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,7 +32,7 @@ Register-ScheduledTask `
     -Action $Action `
     -Trigger $Trigger `
     -Settings $Settings `
-    -Description "每天北京时间12点抓取并推送生物统计岗位" `
+    -Description "每天北京时间17点07分抓取并推送生物统计岗位" `
     -Force | Out-Null
 
 Write-Host "已创建任务 $TaskName，每天 $DailyTime 运行。"

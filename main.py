@@ -281,7 +281,11 @@ def send_wxpusher_spt(spt: str, summary: str, content: str) -> dict[str, Any]:
     return result
 
 
-def build_push_markdown(items: list[dict[str, Any]], preview: bool = False) -> str:
+def build_push_markdown(
+    items: list[dict[str, Any]],
+    preview: bool = False,
+    report_url: str = "",
+) -> str:
     jobs = [item for item in items if item["item_type"] == "job"]
     internships = [item for item in items if item["item_type"] == "internship"]
     heading = "推送预览" if preview else "今日新增"
@@ -290,6 +294,8 @@ def build_push_markdown(items: list[dict[str, Any]], preview: bool = False) -> s
         "",
         f"正式岗位 **{len(jobs)}** 个，实习岗位 **{len(internships)}** 个。",
     ]
+    if not items:
+        lines.extend(["", "今天没有发现新岗位，但每日完整报告已经更新。"])
     for label, group in (("正式岗位", jobs), ("中国实习", internships)):
         if not group:
             continue
@@ -300,7 +306,9 @@ def build_push_markdown(items: list[dict[str, Any]], preview: bool = False) -> s
             company = payload.get("company", "")
             location = payload.get("location", "")
             lines.append(f"- [{title}]({payload.get('url', '')}) — {company} · {location}")
-    lines.extend(["", "以上链接均指向原始招聘页面；投递前请再次确认截止日期和岗位状态。"])
+    if report_url:
+        lines.extend(["", "## 完整报告", f"[点击查看今日完整岗位报告]({report_url})"])
+    lines.extend(["", "岗位链接指向原始招聘页面；投递前请再次确认截止日期和岗位状态。"])
     return "\n".join(lines)
 
 
@@ -320,16 +328,19 @@ def preview_push_items(
     ]
 
 
-def send_pending_push(connection: sqlite3.Connection, spt: str) -> int:
+def send_daily_push(connection: sqlite3.Connection, spt: str, report_url: str = "") -> int:
+    """Send one daily update even when the new-item queue is empty."""
     rows = pending_push_items(connection)
-    if not rows:
-        return 0
     items = [
         {"item_type": row["item_type"], "payload": json.loads(row["payload_json"])}
         for row in rows
     ]
     try:
-        send_wxpusher_spt(spt, f"今日新增 {len(items)} 个岗位机会", build_push_markdown(items))
+        send_wxpusher_spt(
+            spt,
+            f"今日新增 {len(items)} 个岗位机会｜完整报告已更新",
+            build_push_markdown(items, report_url=report_url),
+        )
     except Exception as exc:
         connection.executemany(
             "UPDATE push_queue SET attempts = attempts + 1, last_error = ? WHERE item_key = ?",
@@ -841,9 +852,24 @@ def main() -> int:
     parser.add_argument("--max-pages", type=int, default=None, help="Override per-source page limit")
     parser.add_argument("--offline-demo", action="store_true")
     push_group = parser.add_mutually_exclusive_group()
-    push_group.add_argument("--push", action="store_true", help="Send newly queued items through WxPusher")
+    push_group.add_argument("--push", action="store_true", help="Collect, then send the daily WxPusher update")
     push_group.add_argument("--test-push", action="store_true", help="Send a preview without changing queue status")
+    push_group.add_argument(
+        "--send-daily",
+        action="store_true",
+        help="Send the daily update from the existing queue without collecting again",
+    )
     args = parser.parse_args()
+
+    if args.send_daily:
+        spt = os.environ.get("WXPUSHER_SPT", "")
+        if not spt:
+            parser.error("每日推送需要配置 WXPUSHER_SPT=SPT_xxx")
+        connection = connect_history(args.database)
+        pushed = send_daily_push(connection, spt, os.environ.get("REPORT_URL", ""))
+        connection.close()
+        print(f"WxPusher daily update sent: {pushed} new items")
+        return 0
 
     internships = json.loads(args.internships.read_text(encoding="utf-8"))
     connection = connect_history(args.database)
@@ -888,16 +914,18 @@ def main() -> int:
         send_wxpusher_spt(
             spt,
             "生物统计岗位推送测试",
-            build_push_markdown(preview_items, preview=True),
+            build_push_markdown(
+                preview_items,
+                preview=True,
+                report_url=os.environ.get("REPORT_URL", ""),
+            ),
         )
         pushed = len(preview_items)
     elif args.push:
-        pending = pending_push_items(connection)
-        if pending:
-            spt = os.environ.get("WXPUSHER_SPT", "")
-            if not spt:
-                parser.error("存在待推送岗位，请在 .env.local 中配置 WXPUSHER_SPT=SPT_xxx")
-            pushed = send_pending_push(connection, spt)
+        spt = os.environ.get("WXPUSHER_SPT", "")
+        if not spt:
+            parser.error("每日推送需要在 .env.local 中配置 WXPUSHER_SPT=SPT_xxx")
+        pushed = send_daily_push(connection, spt, os.environ.get("REPORT_URL", ""))
 
     print(f"Collected jobs: {len(jobs)}")
     print(f"History bootstrap items: {seeded}")
@@ -906,7 +934,7 @@ def main() -> int:
     if args.test_push:
         print(f"WxPusher preview sent: {pushed} items")
     elif args.push:
-        print(f"WxPusher queue sent: {pushed} items")
+        print(f"WxPusher daily update sent: {pushed} new items")
     for report in sorted(reports, key=lambda item: item["company"]):
         count = report.get("jobs_found", 0)
         detail = report.get("message", "")

@@ -2,8 +2,10 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from main import (
+    build_push_markdown,
     connect_history,
     find_next_url,
     infer_china_location,
@@ -14,6 +16,7 @@ from main import (
     portal_report,
     render_html_report,
     score_text,
+    send_daily_push,
     sync_push_pool,
 )
 
@@ -85,6 +88,27 @@ class JobWatcherTests(unittest.TestCase):
                 connection.execute("SELECT COUNT(*) FROM push_queue").fetchone()[0], 1
             )
 
+    def test_daily_push_sends_when_queue_is_empty_and_links_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            connection = connect_history(Path(tmp) / "history.sqlite3")
+            with patch("main.send_wxpusher_spt") as send:
+                sent = send_daily_push(
+                    connection,
+                    "SPT_testtoken",
+                    "https://example.github.io/job-report/",
+                )
+            self.assertEqual(sent, 0)
+            send.assert_called_once()
+            summary, content = send.call_args.args[1:]
+            self.assertIn("今日新增 0 个", summary)
+            self.assertIn("今天没有发现新岗位", content)
+            self.assertIn("https://example.github.io/job-report/", content)
+
+    def test_push_markdown_includes_full_report_link(self):
+        content = build_push_markdown([], report_url="https://example.com/report/")
+        self.assertIn("完整报告", content)
+        self.assertIn("[点击查看今日完整岗位报告](https://example.com/report/)", content)
+
     def test_csv_mapping_restores_numeric_score(self):
         job = job_from_mapping(
             {
@@ -130,9 +154,11 @@ class JobWatcherTests(unittest.TestCase):
             / "workflows"
             / "daily-job-push.yml"
         ).read_text(encoding="utf-8")
-        self.assertIn('cron: "7 12 * * *"', workflow)
+        self.assertIn('cron: "7 17 * * *"', workflow)
         self.assertIn('timezone: "Asia/Shanghai"', workflow)
         self.assertIn("secrets.WXPUSHER_SPT", workflow)
+        self.assertIn("actions/deploy-pages@v4", workflow)
+        self.assertIn("python main.py --send-daily", workflow)
         self.assertNotRegex(workflow, r"SPT_[A-Za-z0-9]{10,}")
 
 

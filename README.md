@@ -1,6 +1,6 @@
 # Biostatistics Job Watcher MVP
 
-这是一个面向生物统计求职的可运行 V0.6。项目维护 30 家正式岗位监控池（14 家跨国药企、5 家 CRO、11 家国内药企），同时允许实习清单扩展到公司池之外。报告展示成都、中国正式岗位、10 条中国生物统计相关实习、海外实习，以及 2025 历史实习截止日期。SQLite 历史库会把新岗位与旧岗位分开，并可通过 WxPusher 推送新增岗位。项目同时包含 GitHub Actions 云端工作流，即使个人电脑关机，也能每天北京时间 12:07 自动运行。
+这是一个面向生物统计求职的可运行 V0.7。项目维护 30 家正式岗位监控池（14 家跨国药企、5 家 CRO、11 家国内药企），同时允许实习清单扩展到公司池之外。报告展示成都、中国正式岗位、10 条中国生物统计相关实习、海外实习，以及 2025 历史实习截止日期。SQLite 历史库会把新岗位与旧岗位分开；GitHub Pages 提供固定的完整报告网页；WxPusher 每天都会发送新增数量和完整报告链接。GitHub Actions 在电脑关机时仍会每天北京时间 17:07 自动运行。
 
 ## 公司池
 
@@ -68,15 +68,15 @@ python -m unittest -v
 python main.py --test-push
 ```
 
-测试推送会发送当前排名靠前的中国岗位和中国实习，不会修改正式推送队列。手动发送待推送池中的新增岗位：
+测试推送会发送当前排名靠前的中国岗位和中国实习，不会修改正式推送队列。手动生成报告并发送当天日报：
 
 ```bash
 python main.py --push
 ```
 
-当天没有新增岗位时，`--push` 不发送消息。
+`--push` 每次都会发送消息。当天没有新增岗位时会发送“今日新增 0 个”，并附完整报告链接（如环境变量 `REPORT_URL` 已配置）。
 
-## 每天北京时间 12:00 自动运行（Windows）
+## 每天北京时间 17:07 自动运行（Windows）
 
 在 PowerShell 中进入项目目录后执行：
 
@@ -84,7 +84,7 @@ python main.py --push
 powershell -ExecutionPolicy Bypass -File .\setup_windows_task.ps1
 ```
 
-脚本会创建名为 `BiostatisticsJobWatcher` 的每日任务。电脑在 12:00 关机或休眠时无法准点抓取；`StartWhenAvailable` 会让系统在下次可用时补跑。如果需要电脑关闭时仍能准时发送，应把同一命令部署到云服务器或云定时任务。
+脚本会创建名为 `BiostatisticsJobWatcher` 的每日任务。电脑在 17:07 关机或休眠时无法准点抓取；`StartWhenAvailable` 会让系统在下次可用时补跑。如果需要电脑关闭时仍能准时发送，应使用下面的 GitHub Actions 云端方案。
 
 ## 电脑关机时自动运行（推荐）
 
@@ -94,7 +94,7 @@ powershell -ExecutionPolicy Bypass -File .\setup_windows_task.ps1
 .github/workflows/daily-job-push.yml
 ```
 
-它会在每天北京时间 12:07 运行，使用 GitHub Secret 读取 `WXPUSHER_SPT`，并通过缓存保存 SQLite 历史库和推送队列。也可在 GitHub Actions 页面手动发送一次预览。完整配置步骤见 [`GITHUB_ACTIONS_SETUP.md`](GITHUB_ACTIONS_SETUP.md)。
+它会在每天北京时间 17:07 运行，使用 GitHub Secret 读取 `WXPUSHER_SPT`，并通过缓存保存 SQLite 历史库和推送队列。每次运行会把 `latest_report.html` 部署到 GitHub Pages，然后无论新增数量是否为 0 都发送一次 WxPusher 日报；消息中的“点击查看今日完整岗位报告”指向最新网页。完整配置步骤见 [`GITHUB_ACTIONS_SETUP.md`](GITHUB_ACTIONS_SETUP.md)。
 
 ## 如何理解第一轮结果
 
@@ -112,4 +112,4 @@ powershell -ExecutionPolicy Bypass -File .\setup_windows_task.ps1
 - 地点识别目前根据搜索结果文字和岗位 URL 完成；少数网站若不在搜索页显示地点，需要在下一版读取 JD。
 - 当前实习清单采用“经核实的策展数据 + 自动源”的务实方式；部分海外岗位有工作许可限制。
 - 中国实习同时使用公司官网和招聘平台近期页面。报告会区分“官网开放”“官网长期招聘”“近期发布·投递前复核”，不会将第三方页面一律视为官网确认。
-- WxPusher 报告链接默认不能指向本机 HTML，因此微信正文直接附原始岗位链接；完整 HTML 报告仍保存在 `output`。如需手机打开完整报告，需要额外部署静态网页。
+- GitHub Pages 报告属于公开网页，即使源仓库为 Private 也不应在报告中放个人信息或密钥。本项目只发布公开岗位信息，不会把 `WXPUSHER_SPT` 写入网页。
