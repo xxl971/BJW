@@ -1,11 +1,26 @@
+# Biostatistics Job Watcher MVP
+
+这是一个面向生物统计求职的可运行项目。公司池有 94 家（14 家跨国药企、5 家跨国 CRO、55 家国内药企、20 家国内 CRO）。其中 7 家配置了尝试自动抓取，31 家记录了招聘入口，另外 56 家尚未补充招聘入口；真实抓取成功数量以每次报告为准。报告展示成都、中国正式岗位、中国实习、海外实习、历史实习截止日期，以及猎聘、智联招聘、LinkedIn、实习僧、松鼠实习的人工定向检索入口。岗位、实习、公司来源表显示公司性质（跨国药企、跨国CRO、国内药企、国内CRO、其他）。SQLite 历史库区分首次发现与已见过的岗位；GitHub Pages 可以托管报告，WxPusher 每天发送汇总和报告链接。自动运行时间取决于你在 GitHub 仓库默认分支上实际使用的工作流。
 
 ## 公司池
 
 - 14 家跨国药企：AstraZeneca、Amgen、Roche、Gilead、MSD、BMS、Pfizer、Lilly、Novartis、Sanofi、AbbVie、J&J、Takeda、Boehringer Ingelheim
-- 5 家 CRO：IQVIA、ICON、Parexel、Fortrea、Thermo Fisher / PPD
+- 5 家跨国 CRO：IQVIA、ICON、Parexel、Fortrea、Thermo Fisher / PPD
 - 11 家国内药企：恒瑞、百济神州、信达、君实、再鼎、康方、和黄、中国生物制药/正大天晴、翰森、科伦、康弘
 
-`monitor_mode=html` 的站点会自动抓取并翻页；`monitor_mode=portal` 的站点在报告里提供官方入口，等待后续增加专用适配器。程序不会把仅有官网入口的公司误报成“自动抓取成功”。
+新增公司及出处见 [`companies.json`](companies.json)：以中国医药工业信息中心发布的 [2025 年主营业务收入前 100 位](https://www.cnpp.cn/focus/3560969.html) 为母榜，按原榜顺序选择 50 家中国主体的制药、药品研发和医药制造集团，排除外资子公司、医疗器械和纯服务企业；保留原池中 5 家不在该筛选名单内的国内药企，因此国内药企共 55 家。`rank` 记录**原百强榜名次**，不是一份官方另行公布的“国内药企前 50”榜单。国内 CRO 的 20 家按[药智网 2025 年中国医药 CRO 企业 20 强](https://top.yaozh.com/Ranking/index/tag/15/year/2025.html)录入；该榜按研发实力评定，包含临床前及其他研发服务公司，不代表营收或生物统计职位数量。两张榜单的名次不可比较。
+
+`monitor_mode=html` 的站点会自动抓取并翻页；`monitor_mode=portal` 的站点在报告里提供招聘入口，等待后续增加专用适配器；`monitor_mode=pending` 的新公司仅加入候选名单，`url` 留空，报告标记“待补充入口”，**不会被抓取，也不会产生该公司的新岗位推送**。收到由用户提供的招聘网址再改成 `portal`；配好解析器并核实翻页后才改成 `html`。公司可配置 `channels`，分别保存社招、校招、实习以及其他地区等多条链接；报告会一并展示。例如罗氏中国实习、数字化与研发及 Genentech 美国实习；齐鲁、复星、正大天晴、上海医药、三生制药的社招、校招及实习入口；其他已提交入口均保存在公司池中。恒瑞的松鼠实习公司页标明为第三方，修正药业的 Bing 检索链接放入 `discovery_urls`，保留 `pending` 状态。入口已经记录不等于已核实岗位仍在开放，也不等于完成自动采集。
+
+罗氏官网入口使用中国大陆招聘页 `https://careers.roche.com/cn/zh/mainland-china-jobs`；该页目前通过浏览器脚本加载结果，仍属于 `portal`，不会自动入库。已有的其余入口和新公司的招聘链接仍需逐家核对详情字段、翻页方式和访问条件。
+
+城市识别优先使用职位明确给出的 `data-location` / 招聘卡片地点 / JSON-LD `jobLocation` 字段；只有页面没有地点时才参考标题和职位链接。已覆盖成都、主要国内城市和多个四川城市；不能可靠识别但职位页写有中文地点的记录显示在“地点待核实”列表里，不计入中国新增推送。不会因为公司来自中国站点就自动认定为中国岗位。职位名称的中文检索词包括生物统计、医学统计、统计科学家、统计编程、临床统计和生物信息。
+
+报告末尾的猎聘、智联招聘、LinkedIn、实习僧、松鼠实习入口是按照平台域名和职位关键词生成的定向搜索链接，属于**人工复核**，不是已验证的开放岗位或自动抓取数据。松鼠实习主页和恒瑞在该站的公司页提供直接入口，第三方聚合岗位仍要到招聘方页面核实。搜索引擎可能收录早已下线的职位；请先打开具体职位页核对城市、发布时间、投递状态及截止日期。当前不会把这些入口计入“今日新增”或 WxPusher 推送。要把平台职位自动入库，需要可稳定访问且允许使用的检索数据源，并单独实现职位状态校验。不同来源 URL 对应的同一岗位保留两条记录和两条原始链接，新增计数按来源记录统计；校招不自动视为实习。
+
+## 在 GitHub 更新现有仓库
+
+把更新包**解压**，将其中的 `main.py`、`companies.json`、`test_main.py`、`README.md` 和 `COMPANY_POOL.md` 五个文件上传到仓库根目录，选择覆盖同名文件并提交到默认分支。不要直接上传 zip 文件：GitHub 不会帮你自动解压。更新包没有 `.github/workflows/`、`internships.json`、`data/` 或 `output/`，不会替换你已经调好的定时工作流、实习记录或推送历史。上传后可在 Actions 里手动运行工作流，并打开 HTML 报告检查新入口；新增 `portal` 公司只会出现链接，尚不会自动贡献岗位数量。
 
 ## 运行环境
 
@@ -26,7 +41,7 @@ python main.py
 
 结果写入 `output` 文件夹：
 
-- `job_report_时间戳.html`：成都、中国正式岗位；当前开放实习；历史实习截止日期；30 家公司监控状态
+- `job_report_时间戳.html`：成都、中国正式岗位；当前开放实习；历史实习截止日期；94 家公司监控与待补充状态
 - `latest_report.html`：最近一次报告的固定文件名
 - `jobs_all_时间戳.csv`：全球抓到并通过初筛的岗位
 - `jobs_china_时间戳.csv`：中国岗位
@@ -91,14 +106,15 @@ powershell -ExecutionPolicy Bypass -File .\setup_windows_task.ps1
 .github/workflows/daily-job-push.yml
 ```
 
-它会在每天北京时间 17:07 运行，使用 GitHub Secret 读取 `WXPUSHER_SPT`，并通过缓存保存 SQLite 历史库和推送队列。每次运行会把 `latest_report.html` 部署到 GitHub Pages，然后无论新增数量是否为 0 都发送一次 WxPusher 日报；消息中的“点击查看今日完整岗位报告”指向最新网页。完整配置步骤见 [`GITHUB_ACTIONS_SETUP.md`](GITHUB_ACTIONS_SETUP.md)。
+实际自动运行时间以你 GitHub 仓库默认分支中该工作流的 `schedule` 配置及 GitHub Actions 的实际调度为准。本次更新不包含工作流文件，因此不会更改目前已设定的运行时间。工作流使用 GitHub Secret 读取 `WXPUSHER_SPT`，并通过缓存保存 SQLite 历史库和推送队列；每次运行会把 `latest_report.html` 部署到 GitHub Pages，然后无论新增数量是否为 0 都发送一次 WxPusher 日报。消息中的“点击查看今日完整岗位报告”指向最新网页。配置步骤见 [`GITHUB_ACTIONS_SETUP.md`](GITHUB_ACTIONS_SETUP.md)，以仓库中现用工作流为准。
 
 ## 如何理解第一轮结果
 
 - `ok`：页面成功返回，而且解析到了符合条件的岗位。
 - `warning`：页面成功返回，但未解析到岗位。常见原因是网站改版、依赖 JavaScript，或当前没有匹配岗位。
 - `failed`：网络、TLS、超时、403/429 或其他 HTTP 问题。
-- `portal`：已纳入 30 家公司池并提供官方招聘链接，但未使用通用解析器自动抓取。
+- `portal`：提供招聘入口，但未使用通用解析器自动抓取。
+- `pending`：已列入候选池但官网招聘链接尚未核实，未自动抓取。
 
 第一版故意只读取搜索结果页，不高频访问每个职位详情页，以减少对招聘网站的请求。确认哪些来源稳定后，再为各网站增加专用解析器、详情页字段和 SQLite 去重。
 

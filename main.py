@@ -17,13 +17,13 @@ import ssl
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.parse import unquote, urljoin, urlparse
+from urllib.parse import quote, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -38,15 +38,16 @@ INTERNSHIP_MARKERS = (
 )
 
 SCORE_RULES: list[tuple[str, int, tuple[str, ...]]] = [
-    ("biostatistics", 35, ("biostatistic", "biometric")),
-    ("statistician", 25, ("statistician", "statistical scientist", "statistical science", " statistics")),
-    ("statistical programming", 25, ("statistical programmer", "statistical programming")),
-    ("RWE", 20, ("real world evidence", "real-world evidence", "rwe")),
-    ("HEOR", 20, ("health economics", "outcomes research", "heor")),
-    ("clinical data science", 15, ("clinical data scientist", "clinical data science")),
+    ("biostatistics", 35, ("biostatistic", "biometric", "生物统计", "医学统计")),
+    ("statistician", 25, ("statistician", "statistical scientist", "statistical science", " statistics", "临床统计", "统计科学家")),
+    ("statistical programming", 25, ("statistical programmer", "statistical programming", "统计编程", "统计程序")),
+    ("RWE", 20, ("real world evidence", "real-world evidence", "rwe", "真实世界研究", "真实世界证据")),
+    ("HEOR", 20, ("health economics", "outcomes research", "heor", "卫生经济")),
+    ("clinical data science", 15, ("clinical data scientist", "clinical data science", "临床数据科学")),
     ("clinical data", 15, ("clinical data manager", "clinical data management")),
     ("data science", 15, ("data scientist", "data science")),
-    ("epidemiology", 18, ("epidemiologist", "epidemiology", "pharmacoepidemiology")),
+    ("epidemiology", 18, ("epidemiologist", "epidemiology", "pharmacoepidemiology", "流行病学")),
+    ("bioinformatics", 20, ("bioinformatics", "bioinformatic", "生物信息")),
     ("quantitative sciences", 15, ("quantitative science", "quantitative scientist")),
     ("clinical trials", 10, ("clinical trial", "clinical development")),
     ("survival analysis", 10, ("survival", "time-to-event")),
@@ -79,7 +80,51 @@ CHINA_CITIES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("Jinan", ("jinan", "济南")),
     ("Xiamen", ("xiamen", "厦门")),
     ("Kunming", ("kunming", "昆明")),
+    ("Neijiang", ("neijiang", "内江")),
+    ("Mianyang", ("mianyang", "绵阳")),
+    ("Deyang", ("deyang", "德阳")),
+    ("Yibin", ("yibin", "宜宾")),
+    ("Luzhou", ("luzhou", "泸州")),
+    ("Leshan", ("leshan", "乐山")),
+    ("Meishan", ("meishan", "眉山")),
+    ("Nanchong", ("nanchong", "南充")),
+    ("Shijiazhuang", ("shijiazhuang", "石家庄")),
+    ("Fuzhou", ("fuzhou", "福州")),
+    ("Ningbo", ("ningbo", "宁波")),
+    ("Wuxi", ("wuxi", "无锡")),
+    ("Dongguan", ("dongguan", "东莞")),
+    ("Foshan", ("foshan", "佛山")),
+    ("Zhuhai", ("zhuhai", "珠海")),
+    ("Jiaxing", ("jiaxing", "嘉兴")),
+    ("Huzhou", ("huzhou", "湖州")),
+    ("Hainan", ("haikou", "海口")),
+    ("Nanning", ("nanning", "南宁")),
+    ("Guiyang", ("guiyang", "贵阳")),
+    ("Lanzhou", ("lanzhou", "兰州")),
+    ("Taiyuan", ("taiyuan", "太原")),
+    ("Harbin", ("harbin", "哈尔滨")),
+    ("Changchun", ("changchun", "长春")),
+    ("Nanchang", ("nanchang", "南昌")),
+    ("Hohhot", ("hohhot", "呼和浩特")),
+    ("Urumqi", ("urumqi", "乌鲁木齐")),
+    ("Hong Kong", ("hong kong", "hongkong", "香港")),
+    ("Macau", ("macau", "macao", "澳门")),
 )
+
+CHINA_REGIONS = ("中国", "china", "prc", "四川", "江苏", "浙江", "广东", "湖北", "湖南", "山东", "福建", "安徽", "河南", "河北", "陕西", "辽宁", "吉林", "黑龙江", "江西", "云南", "贵州", "广西", "海南", "甘肃", "青海", "宁夏", "新疆", "内蒙古", "西藏", "山西")
+PLATFORM_SEARCHES = (
+    ("猎聘", "liepin.com/job/", ("罗氏 Statistical Scientist", "生物统计", "统计科学家", "统计编程", "临床统计", "真实世界研究")),
+    ("智联招聘", "jobs.zhaopin.com/", ("生物统计", "统计编程", "临床统计", "真实世界研究", "实习 生物统计")),
+    ("LinkedIn", "cn.linkedin.com/jobs/view/", ("Statistical Scientist 中国", "Biostatistician 中国", "Statistical Programmer 中国", "RWE 中国")),
+    ("实习僧", "shixiseng.com/intern/", ("生物统计 实习", "统计编程 实习", "临床统计 实习", "生物信息 实习", "流行病学 实习")),
+    ("松鼠实习", "agechild.com/", ("生物统计 实习", "统计编程 实习", "临床统计 实习", "生物信息 实习", "流行病学 实习")),
+)
+COMPANY_TYPES = ("跨国药企", "跨国CRO", "国内药企", "国内CRO", "其他")
+EXTRA_COMPANY_TYPES = {
+    "Caidya / 缔脉生物医药": "跨国CRO",
+    "德达医药 Deltamed": "国内CRO",
+    "Astellas Pharma": "跨国药企",
+}
 
 
 @dataclass(frozen=True)
@@ -370,6 +415,7 @@ class AnchorParser(HTMLParser):
         self._rel = ""
         self._parts: list[str] = []
         self.anchors: list[tuple[str, str, str]] = []
+        self.locations: dict[str, str] = {}
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag.lower() != "a" or self._href is not None:
@@ -380,6 +426,9 @@ class AnchorParser(HTMLParser):
             self._href = href
             self._rel = values.get("rel") or ""
             self._parts = []
+            location = values.get("data-location") or values.get("data-job-location") or values.get("data-city")
+            if location:
+                self.locations[href] = location
 
     def handle_data(self, data: str) -> None:
         if self._href is not None:
@@ -392,6 +441,48 @@ class AnchorParser(HTMLParser):
             self._href = None
             self._rel = ""
             self._parts = []
+
+
+class JobCardLocationParser(HTMLParser):
+    """Pair a job link with location text in its own listing card."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list[str] = []
+        self.cards: list[dict[str, Any]] = []
+        self.locations: dict[str, str] = {}
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
+            return
+        self.stack.append(tag)
+        values = dict(attrs)
+        if tag in {"li", "article"}:
+            self.cards.append({"depth": len(self.stack), "links": [], "parts": [], "location_depth": 0})
+        if not self.cards:
+            return
+        card = self.cards[-1]
+        if tag == "a" and values.get("href"):
+            card["links"].append(values["href"])
+        classes = (values.get("class") or "").lower().split()
+        if any(cls == "location" or cls.endswith("-location") or cls == "joblocation" for cls in classes) or values.get("data-automation-id") in {"locations", "jobLocation"}:
+            card["location_depth"] = len(self.stack)
+
+    def handle_data(self, data: str) -> None:
+        if self.cards and self.cards[-1]["location_depth"]:
+            self.cards[-1]["parts"].append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if self.cards and self.cards[-1]["location_depth"] == len(self.stack):
+            self.cards[-1]["location_depth"] = 0
+        if self.cards and self.cards[-1]["depth"] == len(self.stack) and tag in {"li", "article"}:
+            card = self.cards.pop()
+            location = clean_text(" ".join(card["parts"]))
+            if location:
+                for href in card["links"]:
+                    self.locations[href] = location
+        if self.stack:
+            self.stack.pop()
 
 
 def clean_text(value: str) -> str:
@@ -409,22 +500,86 @@ def score_text(value: str) -> tuple[int, list[str]]:
     return min(score, 100), matches
 
 
-def infer_china_location(title: str, url: str) -> str:
-    text = unquote(f" {title} {url} ").lower()
+def infer_china_location(title: str, url: str, location: str = "") -> str:
+    # A stated job location is authoritative; a company's China search URL
+    # must never turn a Boston vacancy into a China vacancy.
+    text = unquote(location if location.strip() else f" {title} {url} ").lower()
     for city, markers in CHINA_CITIES:
         if any(marker in text for marker in markers):
+            if location and any(country in text for country in ("united states", " usa", "美国", "canada", "加拿大", "singapore", "新加坡", "australia", "澳大利亚", "japan", "日本", "united kingdom", "英国")) and not any(region in text for region in ("中国", "china", "prc")):
+                return ""
             return f"{city}, China"
-    if " china" in text or "中国" in text:
+    if any(region in text for region in CHINA_REGIONS) or (location and (text.strip() == "cn" or ", cn" in text)):
         return "China"
     return ""
 
 
 def is_china_job(job: Job) -> bool:
-    return bool(infer_china_location(job.title, job.url))
+    return bool(infer_china_location(job.title, job.url, job.location))
 
 
 def is_chengdu_job(job: Job) -> bool:
-    return infer_china_location(job.title, job.url).startswith("Chengdu")
+    return infer_china_location(job.title, job.url, job.location).startswith("Chengdu")
+
+
+def needs_city_review(job: Job) -> bool:
+    """Keep explicit but unknown Chinese-language locations visible for review."""
+    return bool(job.location and not is_china_job(job) and re.search(r"[\u4e00-\u9fff]", job.location))
+
+
+class JobPostingParser(HTMLParser):
+    """Read public schema.org JobPosting JSON-LD when a listing exposes it."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.inside_script = False
+        self.parts: list[str] = []
+        self.postings: list[dict[str, Any]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "script" and dict(attrs).get("type", "").lower() == "application/ld+json":
+            self.inside_script = True
+            self.parts = []
+
+    def handle_data(self, data: str) -> None:
+        if self.inside_script:
+            self.parts.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag != "script" or not self.inside_script:
+            return
+        self.inside_script = False
+        try:
+            payload = json.loads("".join(self.parts))
+        except (ValueError, TypeError):
+            return
+        self._visit(payload)
+
+    def _visit(self, value: Any) -> None:
+        if isinstance(value, list):
+            for item in value:
+                self._visit(item)
+        elif isinstance(value, dict):
+            types = value.get("@type", [])
+            if types == "JobPosting" or "JobPosting" in (types if isinstance(types, list) else []):
+                self.postings.append(value)
+            for key in ("@graph", "itemListElement"):
+                if key in value:
+                    self._visit(value[key])
+
+
+def posting_location(value: Any) -> str:
+    if isinstance(value, list):
+        return "; ".join(filter(None, (posting_location(item) for item in value)))
+    if isinstance(value, dict):
+        address = value.get("address", value)
+        if isinstance(address, dict):
+            country = address.get("addressCountry", "")
+            if isinstance(country, dict):
+                country = country.get("name", "")
+            return ", ".join(str(address.get(field, "")) for field in ("addressLocality", "addressRegion") if address.get(field)) + (f", {country}" if country else "")
+        return str(address)
+    return str(value or "")
 
 
 def is_internship_text(value: str) -> bool:
@@ -439,18 +594,41 @@ def portal_report(source: dict[str, Any]) -> dict[str, Any]:
         "company": source["company"],
         "category": source.get("category", "未分类"),
         "source_url": source["url"],
+        "rank": source.get("rank"),
+        "rank_source": source.get("rank_source", ""),
+        "channels": source.get("channels") or [{"kind": "官网入口", "url": source["url"]}],
         "status": "portal",
         "pages_fetched": 0,
         "jobs_found": 0,
         "china_jobs_found": 0,
         "chengdu_jobs_found": 0,
-        "message": "已纳入公司池；当前使用官方招聘入口人工复核，待增加专用适配器。",
+        "message": "仅提供官方招聘入口，未自动采集职位；需要人工查看或专用适配器。",
+    }
+
+
+def pending_report(source: dict[str, Any]) -> dict[str, Any]:
+    """A ranked company with no recruiting URL; discovery searches stay separate."""
+    return {
+        "company": source["company"],
+        "category": source.get("category", "未分类"),
+        "source_url": "",
+        "channels": source.get("discovery_urls", []),
+        "rank": source.get("rank"),
+        "rank_source": source.get("rank_source", ""),
+        "status": "pending",
+        "pages_fetched": 0,
+        "jobs_found": 0,
+        "china_jobs_found": 0,
+        "chengdu_jobs_found": 0,
+        "message": "已加入公司池；招聘入口待核实，人工搜索链接不是岗位数据。",
     }
 
 
 def parse_jobs(page_html: str, company: str, source_url: str, min_score: int) -> list[Job]:
     parser = AnchorParser()
     parser.feed(page_html)
+    cards = JobCardLocationParser()
+    cards.feed(page_html)
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     seen: set[str] = set()
     jobs: list[Job] = []
@@ -467,7 +645,8 @@ def parse_jobs(page_html: str, company: str, source_url: str, min_score: int) ->
             continue
         seen.add(normalized_url)
         job_id = hashlib.sha256(f"{company}|{normalized_url}".encode()).hexdigest()[:16]
-        location = infer_china_location(label, normalized_url)
+        stated_location = parser.locations.get(href) or cards.locations.get(href, "")
+        location = infer_china_location(label, normalized_url, stated_location) or stated_location
         jobs.append(
             Job(
                 job_id=job_id,
@@ -482,6 +661,37 @@ def parse_jobs(page_html: str, company: str, source_url: str, min_score: int) ->
                 collected_at_utc=now,
             )
         )
+    structured = JobPostingParser()
+    structured.feed(page_html)
+    for posting in structured.postings:
+        label = clean_text(str(posting.get("title") or posting.get("name") or ""))
+        link = posting.get("url") or posting.get("sameAs")
+        if not label or not isinstance(link, str):
+            continue
+        normalized_url = urljoin(source_url, link).split("#", 1)[0]
+        if urlparse(normalized_url).scheme not in {"http", "https"}:
+            continue
+        score, matched = score_text(label)
+        if score < min_score:
+            continue
+        explicit_location = posting_location(posting.get("jobLocation", ""))
+        location = infer_china_location(label, normalized_url, explicit_location) or explicit_location
+        if normalized_url in seen:
+            for index, existing in enumerate(jobs):
+                if existing.url == normalized_url:
+                    jobs[index] = replace(existing, location=location or existing.location,
+                                          posted_date=str(posting.get("datePosted", "")) or existing.posted_date)
+                    break
+            continue
+        seen.add(normalized_url)
+        jobs.append(Job(
+            job_id=hashlib.sha256(f"{company}|{normalized_url}".encode()).hexdigest()[:16],
+            company=company, title=label,
+            location=location,
+            posted_date=str(posting.get("datePosted", "")),
+            url=normalized_url, source_url=source_url, score=score,
+            matched_rules="; ".join(matched), collected_at_utc=now,
+        ))
     return jobs
 
 
@@ -542,6 +752,9 @@ def collect_one(
         "company": company,
         "category": source.get("category", "未分类"),
         "source_url": url,
+        "channels": source.get("channels") or [{"kind": "自动采集入口", "url": url}],
+        "rank": source.get("rank"),
+        "rank_source": source.get("rank_source", ""),
         "status": "failed",
     }
     max_pages = max_pages_override or int(source.get("max_pages", 10))
@@ -624,10 +837,40 @@ def write_csv(path: Path, jobs: list[Job]) -> None:
             writer.writerow(asdict(job))
 
 
-def job_table(jobs: list[Job], empty_message: str, new_urls: set[str] | None = None) -> str:
+def company_type(name: str, categories: dict[str, str]) -> str:
+    """Use a confirmed company pool match; leave other companies for review."""
+    if name in EXTRA_COMPANY_TYPES:
+        return EXTRA_COMPANY_TYPES[name]
+    if name in categories:
+        return categories[name]
+    normalized = name.casefold()
+    leading_name = normalized.split(" / ", 1)[0]
+    for known_name, category in categories.items():
+        if len(leading_name) >= 5 and leading_name in known_name.casefold():
+            return category
+        for alias in known_name.split(" / "):
+            alias = alias.casefold().strip()
+            if len(alias) >= 5 and (normalized.startswith(alias + " ") or normalized.startswith(alias + " /")):
+                return category
+    return "其他"
+
+
+def job_source(job: Job) -> str:
+    hostname = (urlparse(job.url).hostname or "").lower()
+    for domain, label in (("liepin.com", "猎聘"), ("zhaopin.com", "智联招聘"),
+                          ("linkedin.com", "LinkedIn"), ("shixiseng.com", "实习僧"),
+                          ("agechild.com", "松鼠实习")):
+        if hostname == domain or hostname.endswith("." + domain):
+            return label
+    return "公司官网"
+
+
+def job_table(jobs: list[Job], empty_message: str, new_urls: set[str] | None = None,
+              categories: dict[str, str] | None = None) -> str:
     if not jobs:
         return f'<div class="empty">{html.escape(empty_message)}</div>'
     new_urls = new_urls or set()
+    categories = categories or {}
     rows = []
     for job in sorted(jobs, key=lambda item: (-item.score, item.company, item.title)):
         location = job.location or "China（城市未识别）"
@@ -637,6 +880,8 @@ def job_table(jobs: list[Job], empty_message: str, new_urls: set[str] | None = N
         rows.append(
             f"<tr{row_class}>"
             f"<td>{html.escape(job.company)}</td>"
+            f"<td>{html.escape(company_type(job.company, categories))}</td>"
+            f"<td>{html.escape(job_source(job))}</td>"
             f"<td>{badge}<a href=\"{html.escape(job.url, quote=True)}\" target=\"_blank\" rel=\"noopener\">{html.escape(job.title)}</a></td>"
             f"<td>{html.escape(location)}</td>"
             f"<td><span class=\"score\">{job.score}</span></td>"
@@ -645,17 +890,19 @@ def job_table(jobs: list[Job], empty_message: str, new_urls: set[str] | None = N
         )
     return (
         "<div class=\"table-wrap\"><table><thead><tr>"
-        "<th>公司</th><th>岗位（点击打开）</th><th>地点</th><th>分数</th><th>匹配项</th>"
+        "<th>公司</th><th>公司性质</th><th>来源</th><th>岗位（点击打开）</th><th>地点</th><th>分数</th><th>匹配项</th>"
         "</tr></thead><tbody>" + "".join(rows) + "</tbody></table></div>"
     )
 
 
 def internship_table(
-    items: list[dict[str, Any]], historical: bool = False, new_urls: set[str] | None = None
+    items: list[dict[str, Any]], historical: bool = False, new_urls: set[str] | None = None,
+    categories: dict[str, str] | None = None,
 ) -> str:
     if not items:
         return '<div class="empty">当前没有已核实的记录。建议直接打开下方公司官网入口复核。</div>'
     rows = []
+    categories = categories or {}
     new_urls = new_urls or set()
     sort_key = (lambda item: (item.get("deadline", "9999"), item.get("company", "")))
     for item in sorted(items, key=sort_key):
@@ -666,6 +913,7 @@ def internship_table(
         rows.append(
             f"<tr{row_class}>"
             f"<td>{html.escape(item.get('company', ''))}</td>"
+            f"<td>{html.escape(company_type(item.get('company', ''), categories))}</td>"
             f"<td>{badge}<a href=\"{html.escape(item.get('url', ''), quote=True)}\" target=\"_blank\" rel=\"noopener\">{html.escape(item.get('title', ''))}</a></td>"
             f"<td>{html.escape(item.get('location', ''))}</td>"
             f"<td>{html.escape(status_or_year)}</td>"
@@ -678,10 +926,26 @@ def internship_table(
     label = "年份" if historical else "状态"
     return (
         '<div class="table-wrap"><table><thead><tr>'
-        f'<th>公司</th><th>实习（点击打开）</th><th>地点</th><th>{label}</th><th>截止日期</th>'
+        f'<th>公司</th><th>公司性质</th><th>实习（点击打开）</th><th>地点</th><th>{label}</th><th>截止日期</th>'
         '<th>申请条件</th><th>适合原因</th><th>来源</th>'
         '</tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>'
     )
+
+
+def platform_search_table() -> str:
+    """Clickable domain-scoped searches, not an unverified automated feed."""
+    rows = []
+    for platform, domain_path, queries in PLATFORM_SEARCHES:
+        for term in queries:
+            query = f"site:{domain_path} {term}"
+            link = "https://www.bing.com/search?q=" + quote(query, safe="")
+            rows.append(
+                "<tr>"
+                f"<td>{html.escape(platform)}</td><td>{html.escape(term)}</td>"
+                f'<td><a href="{html.escape(link, quote=True)}" target="_blank" rel="noopener">查看检索结果</a></td>'
+                "<td>人工复核：在职位页核对地点、发布时间与是否仍可投递</td></tr>"
+            )
+    return '<div class="table-wrap"><table><thead><tr><th>平台</th><th>关键词</th><th>限定平台的网页搜索</th><th>状态</th></tr></thead><tbody>' + "".join(rows) + '</tbody></table></div>'
 
 
 def render_html_report(
@@ -699,19 +963,30 @@ def render_html_report(
     new_china_jobs = [job for job in china_jobs if job.url in new_job_urls]
     old_chengdu_jobs = [job for job in chengdu_jobs if job.url not in new_job_urls]
     old_china_jobs = [job for job in china_jobs if job.url not in new_job_urls]
+    city_review = [job for job in jobs if needs_city_review(job)]
     generated = datetime.now(BEIJING_TZ).strftime("%Y-%m-%d %H:%M 北京时间")
+    categories = {item["company"]: item.get("category", "其他") for item in reports}
     source_rows = []
     for item in sorted(reports, key=lambda value: value["company"]):
-        status_label = {"ok":"自动抓取成功", "warning":"自动抓取需复核", "failed":"抓取失败", "portal":"官网入口"}.get(item["status"], item["status"])
+        status_label = {"ok":"自动抓取成功", "warning":"自动抓取需复核", "failed":"抓取失败", "portal":"招聘入口", "pending":"待补充入口"}.get(item["status"], item["status"])
+        channels = item.get("channels") or ([{"kind": "职位入口", "url": item["source_url"]}] if item.get("source_url") else [])
+        links = " · ".join(
+            f'<a href="{html.escape(channel["url"], quote=True)}" target="_blank" rel="noopener">{html.escape(channel["kind"])}</a>'
+            for channel in channels
+        )
+        if not links:
+            links = "待核实"
+        rank = f"{item['rank']}（{html.escape(item.get('rank_source', ''))}）" if item.get("rank") else "—"
         source_rows.append(
             "<tr>"
             f"<td>{html.escape(item['company'])}</td>"
             f"<td>{html.escape(item.get('category', '未分类'))}</td>"
+            f"<td>{rank}</td>"
             f"<td>{item.get('pages_fetched', 0)}</td>"
             f"<td>{item.get('jobs_found', 0)}</td>"
             f"<td>{item.get('china_jobs_found', 0)}</td>"
             f"<td class=\"status {html.escape(item['status'])}\">{html.escape(status_label)}</td>"
-            f"<td><a href=\"{html.escape(item['source_url'], quote=True)}\" target=\"_blank\" rel=\"noopener\">招聘页</a></td>"
+            f"<td>{links}</td>"
             "</tr>"
         )
     current_internships = internships.get("current", [])
@@ -723,7 +998,7 @@ def render_html_report(
     today_new_count = len(new_china_jobs) + len(new_china_internships)
     category_counts = {
         category: sum(item.get("category") == category for item in reports)
-        for category in ("跨国药企", "CRO", "国内药企")
+        for category in COMPANY_TYPES
     }
     document = f"""<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -736,7 +1011,7 @@ def render_html_report(
 .num{{font-size:30px;font-weight:750;color:var(--blue)}} .label{{color:var(--muted);font-size:14px}}
 .table-wrap{{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px}} table{{width:100%;border-collapse:collapse;min-width:820px}} th,td{{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}} th{{background:#eef4ff;font-size:14px}} tr:last-child td{{border-bottom:0}} a{{color:var(--blue);text-decoration:none}} a:hover{{text-decoration:underline}}
 .score{{display:inline-block;min-width:38px;text-align:center;padding:3px 8px;background:#dbeafe;color:#1d4ed8;border-radius:999px;font-weight:700}} .empty{{background:#fff;border:1px dashed #94a3b8;border-radius:14px;padding:24px;color:var(--muted)}}
-.note{{background:#fffbeb;border-left:4px solid #f59e0b;padding:13px 16px;border-radius:8px}} .info{{background:#eff6ff;border-left-color:#2563eb}} .status.ok{{color:#15803d}} .status.warning{{color:#b45309}} .status.failed{{color:#b91c1c}} .status.portal{{color:#1d4ed8}}
+.note{{background:#fffbeb;border-left:4px solid #f59e0b;padding:13px 16px;border-radius:8px}} .info{{background:#eff6ff;border-left-color:#2563eb}} .status.ok{{color:#15803d}} .status.warning{{color:#b45309}} .status.failed{{color:#b91c1c}} .status.portal{{color:#1d4ed8}} .status.pending{{color:#64748b}}
 .today-update{{background:#fff1f2;border:1px solid #fecdd3;border-left:6px solid #dc2626;border-radius:12px;padding:18px 20px;margin:22px 0;color:#991b1b;font-size:18px}} .today-update strong{{font-size:28px;color:#dc2626}}
 .new-row{{background:#fff1f2}} .new-row td{{color:#991b1b}} .new-row a{{color:#dc2626;font-weight:750}} .new-badge{{display:inline-block;background:#dc2626;color:#fff;border-radius:999px;padding:2px 7px;font-size:11px;font-weight:800;vertical-align:1px}}
 @media(max-width:760px){{.cards{{grid-template-columns:repeat(2,1fr)}} h1{{font-size:25px}}}}
@@ -749,27 +1024,33 @@ def render_html_report(
 <div class="card"><div class="num">{len(chengdu_jobs)}</div><div class="label">成都岗位</div></div>
 <div class="card"><div class="num">{len(new_china_internships)}</div><div class="label">今日新增中国实习</div></div>
 </section>
-<p class="note">正式岗位来自多页自动抓取；实习来自公司官网和权威历史汇总。中国岗位表包含成都岗位。海外实习务必先核对在读身份与当地工作许可。</p>
+<p class="note">区域一为公司招聘入口；区域二为猎聘、智联招聘、LinkedIn、实习僧和松鼠实习。同一岗位若两个渠道都能核实，保留两条带来源链接的记录；新增计数按来源记录计算。当前五个平台仅提供人工检索入口，尚未自动入库。中国岗位表包含成都岗位。</p>
 <h2>1. 今日新增正式岗位（标红）</h2>
-{job_table(new_china_jobs, '今天暂未发现新的中国正式岗位。', new_job_urls)}
+{job_table(new_china_jobs, '今天暂未发现新的中国正式岗位。', new_job_urls, categories)}
 <h2>2. 历史在库：成都岗位</h2>
-{job_table(old_chengdu_jobs, '当前没有历史在库的成都匹配岗位。')}
+{job_table(old_chengdu_jobs, '当前没有历史在库的成都匹配岗位。', categories=categories)}
 <h2>3. 历史在库：中国全部岗位（含成都）</h2>
-{job_table(old_china_jobs, '当前没有历史在库的中国匹配岗位。')}
+{job_table(old_china_jobs, '当前没有历史在库的中国匹配岗位。', categories=categories)}
 <h2>4. 今日新增实习：中国（标红）</h2>
-{internship_table(new_china_internships, new_urls=new_internship_urls)}
+{internship_table(new_china_internships, new_urls=new_internship_urls, categories=categories)}
 <h2>5. 历史在库实习：中国</h2>
-{internship_table(old_china_internships)}
+{internship_table(old_china_internships, categories=categories)}
 <p class="note info"><strong>中国岗位核验规则：</strong>“公司官网”可直接优先投递；“近期职位/招聘平台”表示页面在近一个月出现或仍提供申请入口，但平台状态可能滞后，投递前请再检查是否仍可提交。未公布截止日期的岗位按滚动招聘处理，建议尽快申请。</p>
 <h2>6. 当前开放实习：海外</h2>
-{internship_table(current_overseas)}
+{internship_table(current_overseas, categories=categories)}
 <p class="note info">“开放”依据抓取日的公司官网状态；未公布截止日期的岗位可能随时关闭。滚动招聘应尽早投递。</p>
 <h2>7. 2025 历史实习与截止日期</h2>
-{internship_table(historical_internships, historical=True)}
+{internship_table(historical_internships, historical=True, categories=categories)}
 <p class="note info"><strong>准备节奏（基于 2025 样本推断）：</strong>海外药企统计实习多在 1–3 月截止，建议前一年 10–12 月完成英文简历、项目材料和工作许可判断；国内暑期实习通常在春季集中出现，应从 2 月起每周检查官网和官方公众号。历史日期用于规划，不代表下一年度一定相同。</p>
-<h2>8. 30 家公司监控池</h2>
-<p class="sub">跨国药企 {category_counts['跨国药企']} 家 · CRO {category_counts['CRO']} 家 · 国内药企 {category_counts['国内药企']} 家。自动抓取站点会翻多页；“官网入口”表示已纳入监控，但需要人工复核或后续专用适配器。</p>
-<div class="table-wrap"><table><thead><tr><th>公司</th><th>类型</th><th>抓取页数</th><th>全球初筛</th><th>中国岗位</th><th>状态</th><th>来源</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div>
+<h2>8. 地点待核实的职位（{len(city_review)} 个）</h2>
+<p class="sub">这些岗位写了地点，但城市尚未可靠归入中国；因此未计入“今日新增”或自动推送。请打开职位页复核后补充城市映射。</p>
+{job_table(city_review[:40], '目前没有需要人工核实城市的中文地点职位。', categories=categories)}
+<h2>9. 区域一：{len(reports)} 家公司池与招聘入口</h2>
+<p class="sub">跨国药企 {category_counts['跨国药企']} 家 · 跨国CRO {category_counts['跨国CRO']} 家 · 国内药企 {category_counts['国内药企']} 家 · 国内CRO {category_counts['国内CRO']} 家 · 其他 {category_counts['其他']} 家。药企名次为 <a href="https://www.cnpp.cn/focus/3560969.html" target="_blank" rel="noopener">2025 年医药工业营收前 100 原榜</a>位次；CRO 名次为 <a href="https://top.yaozh.com/Ranking/index/tag/15/year/2025.html" target="_blank" rel="noopener">2025 年药智网研发实力榜</a>，指标不同，不可直接比较。原公司池部分企业无这两项名次。自动抓取站点会翻多页；“招聘入口”尚需专用适配器；“待补充入口”没有自动采集，所显示的搜索引擎链接仅供人工查找。第三方实习页面需回到企业招聘页复核。</p>
+<div class="table-wrap"><table><thead><tr><th>公司</th><th>公司性质</th><th>榜单位次</th><th>抓取页数</th><th>全球初筛</th><th>中国岗位</th><th>状态</th><th>招聘入口／人工搜索</th></tr></thead><tbody>{''.join(source_rows)}</tbody></table></div>
+<h2>10. 区域二：五个招聘平台定向检索</h2>
+<p class="sub">以下链接按平台域名和岗位关键词打开搜索结果，供查漏和手动核对；<a href="https://agechild.com/" target="_blank" rel="noopener">松鼠实习首页</a>亦可直接查看。搜索索引和聚合页可能滞后；这里的结果不计入本日报“今日新增”，也不会自动推送。</p>
+{platform_search_table()}
 </main></body></html>"""
     report_path.write_text(document, encoding="utf-8")
 
@@ -808,6 +1089,7 @@ def write_outputs(
         "sources_warning": sum(item["status"] == "warning" for item in reports),
         "sources_failed": sum(item["status"] == "failed" for item in reports),
         "sources_portal": sum(item["status"] == "portal" for item in reports),
+        "sources_pending": sum(item["status"] == "pending" for item in reports),
         "current_internships": len(internships.get("current", [])),
         "historical_internships": len(internships.get("historical", [])),
         "new_china_jobs": len(new_job_urls or set()),
@@ -883,7 +1165,8 @@ def main() -> int:
         jobs = []
         portal_sources = [source for source in sources if source.get("monitor_mode", "html") == "portal"]
         html_sources = [source for source in sources if source.get("monitor_mode", "html") == "html"]
-        reports = [portal_report(source) for source in portal_sources]
+        pending_sources = [source for source in sources if source.get("monitor_mode", "html") == "pending"]
+        reports = [portal_report(source) for source in portal_sources] + [pending_report(source) for source in pending_sources]
         with ThreadPoolExecutor(max_workers=min(4, len(html_sources))) as pool:
             futures = {
                 pool.submit(collect_one, source, args.timeout, args.max_pages): source for source in html_sources
