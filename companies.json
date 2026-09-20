@@ -1,0 +1,1199 @@
+{
+  "sources": [
+    {
+      "company": "AstraZeneca",
+      "category": "跨国药企",
+      "monitor_mode": "html",
+      "url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1",
+      "target_urls": [
+        "https://job-search.astrazeneca.cn/%E6%B1%82%E8%81%8C",
+        "https://careers.astrazeneca.com/search-jobs/china/7684/1",
+        "https://careers.astrazeneca.com/search-jobs/chengdu/7684/1"
+      ],
+      "min_score": 20,
+      "max_pages": 10,
+      "target_max_pages": 3,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国职业发展",
+          "url": "https://www.astrazeneca.com.cn/zh/careers.html"
+        },
+        {
+          "kind": "中国职位搜索",
+          "url": "https://job-search.astrazeneca.cn/%E6%B1%82%E8%81%8C"
+        },
+        {
+          "kind": "全球生物统计自动采集入口",
+          "url": "https://careers.astrazeneca.com/search-jobs/biostatistics/7684/1"
+        }
+      ]
+    },
+    {
+      "company": "Amgen",
+      "category": "跨国药企",
+      "monitor_mode": "html",
+      "url": "https://careers.amgen.com/en/search-jobs/Statistics/87/1",
+      "target_urls": [
+        "https://careers.amgen.com/en/search-jobs/China/87/1",
+        "https://careers.amgen.com/en/search-jobs/Chengdu/87/1"
+      ],
+      "min_score": 20,
+      "max_pages": 10,
+      "target_max_pages": 3,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "全球招聘首页",
+          "url": "https://careers.amgen.com/en"
+        },
+        {
+          "kind": "统计岗位自动采集入口",
+          "url": "https://careers.amgen.com/en/search-jobs/Statistics/87/1"
+        }
+      ]
+    },
+    {
+      "company": "Roche / Genentech",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://careers.roche.com/cn/zh/mainland-china-jobs",
+      "global_url": "https://careers.roche.com/global/en/search-results",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国大陆职位",
+          "url": "https://careers.roche.com/cn/zh/mainland-china-jobs"
+        },
+        {
+          "kind": "中国大陆实习",
+          "url": "https://careers.roche.com/cn/zh/early-in-career-china-mainland"
+        },
+        {
+          "kind": "中国数字化与技术",
+          "url": "https://careers.roche.com/cn/zh/china-digital-technology-jobs"
+        },
+        {
+          "kind": "中国研究与开发",
+          "url": "https://careers.roche.com/cn/zh/china-research-and-development-jobs"
+        },
+        {
+          "kind": "Genentech美国实习",
+          "url": "https://careers.gene.com/us/en/internship-opportunities"
+        },
+        {
+          "kind": "罗氏全球实习",
+          "url": "https://careers.roche.com/cn/zh/internship-programs"
+        }
+      ]
+    },
+    {
+      "company": "Gilead Sciences",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://gilead.yello.co/job_boards/v42vD4vKxb3AkKvV93YsrQ",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "Gilead / Kite招聘",
+          "url": "https://gilead.yello.co/job_boards/v42vD4vKxb3AkKvV93YsrQ"
+        }
+      ]
+    },
+    {
+      "company": "Merck / MSD",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://jobs.msd.com/cn/zh/search-results",
+      "channels": [
+        {
+          "kind": "中国职位搜索",
+          "url": "https://jobs.msd.com/cn/zh/search-results"
+        },
+        {
+          "kind": "中国社招",
+          "url": "https://www.ajinga.com/msdchina/professionals"
+        },
+        {
+          "kind": "中国招聘首页",
+          "url": "https://jobs.msd.com/cn/zh/"
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "company": "Bristol Myers Squibb",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://jobs.bms.com/careers?location=china",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国职位",
+          "url": "https://jobs.bms.com/careers?location=china"
+        },
+        {
+          "kind": "全球职位",
+          "url": "https://jobs.bms.com/careers"
+        },
+        {
+          "kind": "美国实习/早期职业",
+          "url": "https://jobs.bms.com/careers?start=0&location=United+States&pid=137483415245&sort_by=distance&filter_include_remote=1&filter_include_relocation=0&filter_family=early+career+program%2Cintern%2Fco-op"
+        }
+      ]
+    },
+    {
+      "company": "Pfizer",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://www.pfizer.com/about/careers/search-results?langcode=en&count=10&sort=latest",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "全球职位搜索（最新优先）",
+          "url": "https://www.pfizer.com/about/careers/search-results?langcode=en&count=10&sort=latest"
+        }
+      ]
+    },
+    {
+      "company": "Eli Lilly",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://careers.lilly.com/global/zh/china",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国职位（中文）",
+          "url": "https://careers.lilly.com/global/zh/china"
+        },
+        {
+          "kind": "中国职位（英文）",
+          "url": "https://careers.lilly.com/us/en/china"
+        }
+      ]
+    },
+    {
+      "company": "Novartis",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://www.novartis.com/careers/career-search",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "全球职位搜索",
+          "url": "https://www.novartis.com/careers/career-search"
+        }
+      ]
+    },
+    {
+      "company": "Sanofi",
+      "category": "跨国药企",
+      "monitor_mode": "html",
+      "url": "https://jobs.sanofi.com/en/search-jobs/biostatistics",
+      "target_urls": [
+        "https://jobs.sanofi.com/en/china",
+        "https://jobs.sanofi.com/en/search-jobs/china",
+        "https://jobs.sanofi.com/en/search-jobs/chengdu"
+      ],
+      "min_score": 20,
+      "max_pages": 10,
+      "target_max_pages": 3,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国职位",
+          "url": "https://jobs.sanofi.com/en/china"
+        },
+        {
+          "kind": "生物统计自动采集入口",
+          "url": "https://jobs.sanofi.com/en/search-jobs/biostatistics"
+        }
+      ]
+    },
+    {
+      "company": "AbbVie",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://careers.abbvie.com/zh-Hans/Jobs",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中文招聘",
+          "url": "https://careers.abbvie.com/zh-Hans/Jobs"
+        }
+      ]
+    },
+    {
+      "company": "Johnson & Johnson Innovative Medicine",
+      "category": "跨国药企",
+      "monitor_mode": "portal",
+      "url": "https://www.careers.jnj.com/zh-cn/jobs/",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中文职位",
+          "url": "https://www.careers.jnj.com/zh-cn/jobs/"
+        }
+      ]
+    },
+    {
+      "company": "Takeda",
+      "category": "跨国药企",
+      "monitor_mode": "html",
+      "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1",
+      "target_urls": [
+        "https://jobs.takeda.com/search-jobs/china/1113/1",
+        "https://jobs.takeda.com/search-jobs/chengdu/1113/1"
+      ],
+      "min_score": 20,
+      "max_pages": 10,
+      "target_max_pages": 3,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "全球全部职位",
+          "url": "https://jobs.takeda.com/search-jobs"
+        },
+        {
+          "kind": "数据与数字技术",
+          "url": "https://jobs.takeda.com/search-jobs?acm=ALL&alrpm=ALL&ascf=[%7B%22key%22:%22custom_fields.CategoryValue%22,%22value%22:%22Data%2c+Digital+%26+Technology%22%7D]"
+        },
+        {
+          "kind": "生物统计自动采集入口",
+          "url": "https://jobs.takeda.com/search-jobs/biostatistics/1113/1"
+        }
+      ]
+    },
+    {
+      "company": "Boehringer Ingelheim",
+      "category": "跨国药企",
+      "monitor_mode": "html",
+      "url": "https://www.boehringer-ingelheim.cn/careers/jobs",
+      "target_urls": [
+        "https://jobs.boehringer-ingelheim.com/search/?q=china",
+        "https://jobs.boehringer-ingelheim.com/search/?q=chengdu"
+      ],
+      "page_template": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics&startrow={offset}",
+      "page_size": 25,
+      "min_score": 20,
+      "max_pages": 10,
+      "target_max_pages": 3,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国招聘",
+          "url": "https://www.boehringer-ingelheim.cn/careers/jobs"
+        },
+        {
+          "kind": "统计岗位自动采集入口",
+          "url": "https://jobs.boehringer-ingelheim.com/search/?q=biostatistics"
+        }
+      ]
+    },
+    {
+      "company": "IQVIA",
+      "category": "跨国CRO",
+      "monitor_mode": "portal",
+      "url": "https://jobs.iqvia.cn/jobs?acm=8215920,76692&alrpm=ALL&ascf=%5B%7B%22key%22:%22ALL%22,%22value%22:%22%22%7D%5D",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国职位",
+          "url": "https://jobs.iqvia.cn/jobs?acm=8215920,76692&alrpm=ALL&ascf=%5B%7B%22key%22:%22ALL%22,%22value%22:%22%22%7D%5D"
+        }
+      ]
+    },
+    {
+      "company": "ICON",
+      "category": "跨国CRO",
+      "monitor_mode": "html",
+      "url": "https://careers.iconplc.com/biostatistics-jobs",
+      "min_score": 20,
+      "max_pages": 10,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "全部职位",
+          "url": "https://careers.iconplc.com/jobs"
+        },
+        {
+          "kind": "生物统计自动采集入口",
+          "url": "https://careers.iconplc.com/biostatistics-jobs"
+        }
+      ]
+    },
+    {
+      "company": "Parexel",
+      "category": "跨国CRO",
+      "monitor_mode": "html",
+      "url": "https://jobs.parexel.com/en/search-jobs/biostatistician",
+      "target_urls": [
+        "https://jobs.parexel.com.cn/search-jobs",
+        "https://jobs.parexel.com/en/search-jobs/china",
+        "https://jobs.parexel.com/en/search-jobs/chengdu"
+      ],
+      "min_score": 20,
+      "max_pages": 10,
+      "target_max_pages": 3,
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国职位",
+          "url": "https://jobs.parexel.com.cn/search-jobs"
+        },
+        {
+          "kind": "生物统计自动采集入口",
+          "url": "https://jobs.parexel.com/en/search-jobs/biostatistician"
+        }
+      ]
+    },
+    {
+      "company": "Fortrea",
+      "category": "跨国CRO",
+      "monitor_mode": "portal",
+      "url": "https://careers.fortrea.com/en/jobs/",
+      "enabled": true
+    },
+    {
+      "company": "Thermo Fisher Scientific / PPD",
+      "category": "跨国CRO",
+      "monitor_mode": "portal",
+      "url": "https://jobs.thermofisher.com/cn/zh/c/%E6%A0%A1%E6%8B%9B%E4%B8%8E%E5%AE%9E%E4%B9%A0%E7%94%9F-jobs",
+      "enabled": true,
+      "channels": [
+        {
+          "kind": "中国校招与实习",
+          "url": "https://jobs.thermofisher.com/cn/zh/c/%E6%A0%A1%E6%8B%9B%E4%B8%8E%E5%AE%9E%E4%B9%A0%E7%94%9F-jobs"
+        },
+        {
+          "kind": "全球临床研究",
+          "url": "https://jobs.thermofisher.com/global/en/c/clinical-research-jobs"
+        },
+        {
+          "kind": "全球职位",
+          "url": "https://jobs.thermofisher.com/global/en/search-results"
+        }
+      ]
+    },
+    {
+      "company": "恒瑞医药 Hengrui",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://app.mokahr.com/social-recruitment/hengrui/145996#/jobs?page=1&anchorName=jobsList",
+      "enabled": true,
+      "rank": 8,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "社会招聘",
+          "url": "https://app.mokahr.com/social-recruitment/hengrui/145996#/jobs?page=1&anchorName=jobsList"
+        },
+        {
+          "kind": "校园招聘",
+          "url": "https://app.mokahr.com/campus-recruitment/hengrui/145997?locale=zh-CN#/jobs?page=1&anchorName=jobsList"
+        },
+        {
+          "kind": "松鼠实习（第三方，需核实）",
+          "url": "https://agechild.com/company/%E6%81%92%E7%91%9E%E5%8C%BB%E8%8D%AF"
+        }
+      ]
+    },
+    {
+      "company": "百济神州 BeOne Medicines",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://www.beonemedicines.com.cn/career/",
+      "enabled": true
+    },
+    {
+      "company": "信达生物 Innovent",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://www.innoventbio.com/",
+      "enabled": true,
+      "rank": 26,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "君实生物 Junshi Biosciences",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://www.junshipharma.com/join/",
+      "enabled": true
+    },
+    {
+      "company": "再鼎医药 Zai Lab",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://cn.zailaboratory.com/jobs/",
+      "enabled": true
+    },
+    {
+      "company": "康方生物 Akeso",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://www.akesobio.com/join-us/",
+      "enabled": true
+    },
+    {
+      "company": "和黄医药 HUTCHMED",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://www.hutch-med.com/careers/",
+      "enabled": true
+    },
+    {
+      "company": "中国生物制药 / 正大天晴",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://cttq.zhiye.com/social/jobs",
+      "enabled": true,
+      "rank": 9,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "社会招聘",
+          "url": "https://cttq.zhiye.com/social/jobs"
+        },
+        {
+          "kind": "校园招聘",
+          "url": "https://cttq.zhiye.com/campus/jobs"
+        },
+        {
+          "kind": "实习生招聘",
+          "url": "https://cttq.zhiye.com/intern/jobs"
+        }
+      ],
+      "max_pages": 10
+    },
+    {
+      "company": "翰森制药 Hansoh Pharma",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://www.hspharm.com/join.html",
+      "enabled": true,
+      "rank": 25,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "科伦药业 Kelun",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://kelun.zhiye.com/social",
+      "channels": [
+        {
+          "kind": "社会招聘",
+          "url": "https://kelun.zhiye.com/social"
+        },
+        {
+          "kind": "校园招聘",
+          "url": "https://kelun.zhiye.com/campus"
+        }
+      ],
+      "enabled": true,
+      "rank": 14,
+      "rank_source": "2025医药工业营收百强",
+      "max_pages": 10
+    },
+    {
+      "company": "康弘药业 Kanghong",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://kanghong.zhiye.com/social/jobs",
+      "channels": [
+        {
+          "kind": "社招",
+          "url": "https://kanghong.zhiye.com/social/jobs"
+        },
+        {
+          "kind": "校招",
+          "url": "https://kanghong.zhiye.com/campus/jobs"
+        }
+      ],
+      "enabled": true,
+      "rank": 63,
+      "rank_source": "2025医药工业营收百强",
+      "max_pages": 10
+    },
+    {
+      "company": "国药集团",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://sinopharm.iguopin.com/job-campus",
+      "enabled": true,
+      "rank": 1,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "校园招聘",
+          "url": "https://sinopharm.iguopin.com/job-campus"
+        }
+      ]
+    },
+    {
+      "company": "华润医药",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://crpharm.zhaopin.com/job/index.html",
+      "enabled": true,
+      "rank": 2,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "2027届校园招聘",
+          "url": "https://crpharm.zhaopin.com/job/index.html"
+        }
+      ]
+    },
+    {
+      "company": "齐鲁制药",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://qilu-pharma.zhiye.com/intern/jobs",
+      "enabled": true,
+      "rank": 3,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "实习生招聘",
+          "url": "https://qilu-pharma.zhiye.com/intern/jobs"
+        },
+        {
+          "kind": "校园招聘",
+          "url": "https://qilu-pharma.zhiye.com/campus"
+        },
+        {
+          "kind": "海外人才招聘",
+          "url": "https://qilu-pharma.zhiye.com/4/jobs"
+        }
+      ],
+      "max_pages": 10
+    },
+    {
+      "company": "中国远大集团（医药业务）",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://job.grandpharma.cn/schooldetail.html",
+      "enabled": true,
+      "rank": 4,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "校园招聘",
+          "url": "https://job.grandpharma.cn/schooldetail.html"
+        }
+      ]
+    },
+    {
+      "company": "复星医药",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://fosunpharma.zhiye.com/social/jobs",
+      "enabled": true,
+      "rank": 6,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "社会招聘",
+          "url": "https://fosunpharma.zhiye.com/social/jobs"
+        },
+        {
+          "kind": "校园招聘",
+          "url": "https://fosunpharma.zhiye.com/campus"
+        },
+        {
+          "kind": "实习生招聘",
+          "url": "https://fosunpharma.zhiye.com/intern/jobs"
+        }
+      ],
+      "max_pages": 10
+    },
+    {
+      "company": "石药集团",
+      "category": "国内药企",
+      "monitor_mode": "portal",
+      "url": "https://ehr.e-cspc.com:8081/RedseaPlatform/zhaopin/zpChannelQrCode/575d2ece-175c-40da-a7e0-8f5263788786/officeMobileWebsite.mob?shareStaff=",
+      "enabled": true,
+      "rank": 7,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "招聘岗位（移动端）",
+          "url": "https://ehr.e-cspc.com:8081/RedseaPlatform/zhaopin/zpChannelQrCode/575d2ece-175c-40da-a7e0-8f5263788786/officeMobileWebsite.mob?shareStaff="
+        }
+      ]
+    },
+    {
+      "company": "上海医药",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://sph.zhiye.com/social/jobs",
+      "enabled": true,
+      "rank": 10,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "社会招聘",
+          "url": "https://sph.zhiye.com/social/jobs"
+        },
+        {
+          "kind": "校园招聘（研发筛选）",
+          "url": "https://sph.zhiye.com/campus/jobs?1=%5B%7B%22id%22%3A%225%22%2C%22label%22%3A%22%E7%A0%94%E5%8F%91%22%7D%5D"
+        },
+        {
+          "kind": "实习生招聘",
+          "url": "https://sph.zhiye.com/intern/jobs"
+        }
+      ],
+      "max_pages": 10
+    },
+    {
+      "company": "修正药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 12,
+      "rank_source": "2025医药工业营收百强",
+      "discovery_urls": [
+        {
+          "kind": "Bing 人工查找招聘官网（非官网）",
+          "url": "https://www.bing.com/search?q=%E4%BF%AE%E6%AD%A3%E8%8D%AF%E4%B8%9A%E6%8B%9B%E8%81%98"
+        }
+      ]
+    },
+    {
+      "company": "三生制药",
+      "category": "国内药企",
+      "monitor_mode": "beisen",
+      "url": "https://3sbio.zhiye.com/social/jobs",
+      "enabled": true,
+      "rank": 15,
+      "rank_source": "2025医药工业营收百强",
+      "channels": [
+        {
+          "kind": "社会招聘",
+          "url": "https://3sbio.zhiye.com/social/jobs"
+        },
+        {
+          "kind": "校园招聘",
+          "url": "https://3sbio.zhiye.com/campus/jobs"
+        },
+        {
+          "kind": "实习生招聘",
+          "url": "https://3sbio.zhiye.com/intern/jobs"
+        }
+      ],
+      "max_pages": 10
+    },
+    {
+      "company": "广药集团",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 18,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "人福医药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 20,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "扬子江药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 23,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "丽珠医药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 24,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "济民可信",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 27,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "长春高新 / 金赛药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 28,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "步长制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 29,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "联邦制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 30,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "北京同仁堂",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 31,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "鲁南制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 32,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "云南白药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 34,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "东阳光集团（医药业务）",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 35,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "新华制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 36,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "华海药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 38,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "华北制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 39,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "天津医药集团",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 40,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "以岭药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 42,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "普洛药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 43,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "海正药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 47,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "浙江医药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 50,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "先声药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 51,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "哈药集团",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 52,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "济川药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 53,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "鲁抗医药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 54,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "泰德制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 55,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "康恩贝",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 56,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "九洲药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 58,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "海普瑞",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 59,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "创诺医药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 60,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "恩华药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 61,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "红日药业",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 62,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "华兰生物",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 64,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "青峰医药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 66,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "绿叶制药",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 67,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "海思科",
+      "category": "国内药企",
+      "monitor_mode": "pending",
+      "url": "",
+      "enabled": true,
+      "rank": 69,
+      "rank_source": "2025医药工业营收百强"
+    },
+    {
+      "company": "药明康德",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 1,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "康龙化成",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 2,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "泰格医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 3,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "昭衍新药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 4,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "阳光诺和",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 5,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "博济医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 6,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "方达医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 7,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "南京威凯尔",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 8,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "南京海纳医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 9,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "南京华威医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 10,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "美迪西",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 11,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "维亚生物",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 12,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "山东百诺医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 13,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "毕得医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 14,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "长沙都正生物",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 15,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "百诚医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 16,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "山东创新药物研发",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 17,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "斯坦德科创医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 18,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "北京舒曼德医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 19,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    },
+    {
+      "company": "南京科默生物医药",
+      "category": "国内CRO",
+      "monitor_mode": "pending",
+      "url": "",
+      "rank": 20,
+      "rank_source": "2025药智CRO研发实力",
+      "enabled": true
+    }
+  ],
+  "ranking_sources": {
+    "domestic_pharma": {
+      "year": 2025,
+      "source": "中国医药工业信息中心：2025年度中国医药工业主营业务收入前100位企业",
+      "reprint_url": "https://www.cnpp.cn/focus/3560969.html",
+      "method": "按原榜名次筛选中国主体的制药、药品研发和医药制造集团，排除外资子公司、医疗器械主体、纯CRO/CDMO；记录原榜位次，不是官方另行公布的“国内药企50强”。原公司池额外企业继续保留。"
+    },
+    "domestic_cro": {
+      "year": 2025,
+      "source": "药智网：中国医药CRO企业20强（研发实力）",
+      "url": "https://top.yaozh.com/Ranking/index/tag/15/year/2025.html",
+      "method": "逐项录入该榜单1至20名。榜单含临床前、临床服务和其他研发服务公司；不代表生物统计岗位数量或收入排序。"
+    }
+  }
+}
